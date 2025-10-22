@@ -1,47 +1,37 @@
 # NordGuide
 
-**NordGuide** is a lightweight **Valheim** mod that adds a clean, Skyrim-styled guidance layer to exploration: a subtle compass, useful markers, and contextual tips that never clutter your screen. Find your way with style—from your first campfire to the far edges of the world.
+## Overview
+**NordGuide** is a Valheim mod that adds an immersive **compass UI** at the top of the screen.
+It displays the cardinal directions (N/E/S/W) and **minimap POIs** (shrines, pings, etc.) aligned
+to the camera heading — with dynamic size and smooth distance-based fading.
+It displays all the minimap icons in the compass UI(mod icons included)
 
 ---
 
-## ✨ Overview
+## Configuration (BepInEx/config/NordGuide.cfg)
 
-- **Minimal UI** with a Nordic look & feel.  
-- **Subtle compass/guide** to aid navigation.  
-- **Helpful markers & hints** focused on quality-of-life, not spoilers.  
-- **Low overhead**, friendly for modpacks.
+```ini
+[HUD]
 
-> Goal: enhance orientation without turning Valheim into a GPS.
+## Activates or deactivates NordGuide’s compass.
+# Setting type: Boolean
+# Default value: true
+Enable Compass = true
 
----
+## If true, the small HUD minimap is hidden (the large world map still works).
+# Setting type: Boolean
+# Default value: false
+Hide Minimap (Small HUD) = false
 
-## 🚧 Status
-
-**Pre-release / WIP.** This repository currently contains presentation info only. Full docs, installation steps, and a changelog will arrive in upcoming versions.
-
----
-
-## 🔭 Roadmap (short)
-
-- Configurable markers.
-- Optional integration with popular QoL mods.
-- Translations (en / pt-BR).
+## Distance (in meters) at which POI icons fully disappear.
+# Setting type: Single
+# Default value: 500
+POI Disappear Distance = 500
+```
 
 ---
 
-## 🔗 Compatibility
-
-Built for **BepInEx** with broad compatibility in mind. Specifics will be documented soon.
-
----
-
-## 🙏 Credits
-
-Created by **BRKiHeL (Genesis Project)**. Thanks to the Valheim community and the BepInEx ecosystem.
-
----
-
-## 📬 Contact
-
-- Issues & suggestions: open an Issue in this repo.
-- Roadmap & changelog: coming soon.
+## Credits
+- Developed by **BRKiHeL** (Genesis Project).
+- Thanks to the Valheim modding community.
+- License: MIT (suggested; update if different).
