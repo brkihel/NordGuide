@@ -9,13 +9,14 @@
 		<LangVersion>10</LangVersion>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<Deterministic>true</Deterministic>
+		<EnableDefaultCompileItems>true</EnableDefaultCompileItems>
 
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 		<DisableTransitiveFrameworkReferences>true</DisableTransitiveFrameworkReferences>
 		<MSBuildWarningsAsMessages>CS1705</MSBuildWarningsAsMessages>
 	</PropertyGroup>
 
-	<!-- ===== Configurações de build ===== -->
+	<!-- Debug / Release -->
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<Optimize>false</Optimize>
@@ -30,24 +31,21 @@
 		<WarningLevel>4</WarningLevel>
 	</PropertyGroup>
 
+	<!-- Importa o caminho do Valheim -->
 	<Import Project="..\DoPrebuild.props" Condition="Exists('..\DoPrebuild.props')" />
 
-	<!-- ===== Referências dinâmicas ===== -->
+	<!-- Referências -->
 	<ItemGroup>
-		<!-- BepInEx / Harmony -->
 		<Reference Include="BepInEx">
 			<HintPath>$(VALHEIM_INSTALL)\BepInEx\core\BepInEx.dll</HintPath>
 		</Reference>
 		<Reference Include="0Harmony">
 			<HintPath>$(VALHEIM_INSTALL)\BepInEx\core\0Harmony.dll</HintPath>
 		</Reference>
-
-		<!-- Valheim assemblies -->
 		<Reference Include="assembly_valheim_publicized">
 			<HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\publicized_assemblies\assembly_valheim_publicized.dll</HintPath>
 		</Reference>
 
-		<!-- Unity Core -->
 		<Reference Include="UnityEngine">
 			<HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.dll</HintPath>
 		</Reference>
@@ -57,36 +55,24 @@
 		<Reference Include="UnityEngine.IMGUIModule">
 			<HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
 		</Reference>
-		<Reference Include="UnityEngine.TextRenderingModule">
-			<HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
-		</Reference>
 		<Reference Include="UnityEngine.ImageConversionModule">
 			<HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
 		</Reference>
-		<!-- ESSENCIAL: UI completa -->
 		<Reference Include="UnityEngine.UI">
 			<HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.UI.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.UIModule">
 			<HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.UIModule.dll</HintPath>
 		</Reference>
-		<Reference Include="UnityEngine.UIElementsModule">
-			<HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
-		</Reference>
 	</ItemGroup>
 
-	<!-- ===== Recursos (texturas) ===== -->
+	<!-- Assets -->
 	<ItemGroup>
 		<Folder Include="Assets\" />
 		<EmbeddedResource Include="Assets\*.png" />
 	</ItemGroup>
 
-	<!-- ===== Caminhos automáticos ===== -->
-	<PropertyGroup>
-		<VALHEIM_MANAGED>$(VALHEIM_INSTALL)\valheim_Data\Managed</VALHEIM_MANAGED>
-	</PropertyGroup>
-
-	<!-- ===== Pós-build: enviar mod pro BepInEx ===== -->
+	<!-- Pós-build -->
 	<Target Name="PostBuild" AfterTargets="Build">
 		<Message Text="Copiando NordGuide.dll para a pasta do Valheim..." Importance="high" />
 		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(VALHEIM_INSTALL)\BepInEx\plugins\NordGuide\" />

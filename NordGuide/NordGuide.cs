@@ -1,48 +1,47 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
-using HarmonyLib;
-using System.Reflection;
-using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
 namespace NordGuide
 {
-    // Metadados do plugin (aparecem no console do BepInEx)
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
-    public class NordGuidePlugin : BaseUnityPlugin
+    [BepInProcess("valheim.exe")]
+    public class NordGuide : BaseUnityPlugin
     {
         public const string PluginGuid = "genesisproj.nordguide";
         public const string PluginName = "NordGuide";
-        public const string PluginVersion = "0.1.0";
-        public static string ModPath;
+        public const string PluginVersion = "1.0.0";
 
-        #pragma warning disable CS0649
-        private Harmony _harmony;
-        #pragma warning restore CS0649
-        public static ManualLogSource Log;  // logger global opcional
+        internal static ManualLogSource Log;
 
-        public void Awake()
+        private void Awake()
         {
-            Logger.LogInfo("NordGuide compass initialized!");
+            Log = Logger;
+            Core.Logging.Initialize(Logger);
+
+            Log.LogInfo("[NordGuide] Initializing...");
+
+            Core.AssetsManager.Initialize();
+            Core.ConfigManager.Initialize(Config);
 
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            // Cria a bússola apenas dentro do jogo (evita menu principal)
-            if (scene.name == "main") // cena "main" é a do jogo
-            {
-                GameObject compassObj = new GameObject("NordGuideCompass");
-                DontDestroyOnLoad(compassObj);
-                compassObj.AddComponent<CompassRenderer>();
-            }
+            if (scene.name != "main") return;
+
+            GameObject go = new GameObject("NordGuideCompass");
+            DontDestroyOnLoad(go);
+            go.AddComponent<Core.CompassRenderer>();
+
+            Log.LogInfo("[NordGuide] Compass initialized successfully!");
         }
 
         private void OnDestroy()
         {
-            // Remove apenas os patches deste mod, se tivermos aplicado algum
-            _harmony?.UnpatchSelf();
+            Log.LogInfo("[NordGuide] Unloaded.");
         }
     }
 }

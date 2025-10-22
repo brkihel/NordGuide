@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
+    <!-- Caminho do Valheim (ajuste se precisar) -->
     <VALHEIM_INSTALL>C:\Program Files (x86)\Steam\steamapps\common\Valheim</VALHEIM_INSTALL>
   </PropertyGroup>
 </Project>
