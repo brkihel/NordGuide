@@ -11,7 +11,7 @@ namespace NordGuide
     {
         public const string PluginGuid = "genesisproj.nordguide";
         public const string PluginName = "NordGuide";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.3";
 
         internal static ManualLogSource Log;
 

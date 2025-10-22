@@ -19,6 +19,17 @@ namespace NordGuide.Core
         private float _localeCheckTimer;
         private const float LocaleCheckInterval = 2f; // checar a cada 2s
 
+        // --- animação de entrada/saída da barra ---
+        private float _barAnim = 0f;       // 0=oculta, 1=visível
+        private float _barAnimVel = 0f;    // vel. para SmoothDamp
+        private const float BarEaseTime = 0.12f; // “mola” crítica (~rápido e suave)
+        private const float BarOvershoot = 0.06f; // 6% de overshoot sutil ao aparecer
+
+        private static float EaseOutCubic( float t ) {
+            t = Mathf.Clamp01( t );
+            return 1f - Mathf.Pow( 1f - t, 3f );
+        }
+
         private void Start()
         {
             bool usePt = IsPortugueseLocale();
@@ -90,17 +101,32 @@ namespace NordGuide.Core
             float targetHeading = Camera.main.transform.eulerAngles.y;
             displayedHeading = Mathf.LerpAngle( displayedHeading, targetHeading, Time.deltaTime * headingLerpSpeed );
 
-            // BAR
+            // animação de entrada/saída (escala)
+            bool shouldShow = true;
+            float target = shouldShow ? 1f : 0f;
+            _barAnim = Mathf.SmoothDamp( _barAnim, target, ref _barAnimVel, BarEaseTime, Mathf.Infinity, Time.deltaTime );
+            float e = EaseOutCubic( _barAnim );
+            float s = 0.98f + 0.02f * e;
+            s += (shouldShow ? BarOvershoot * (1f - e) : 0f);
+
+            Matrix4x4 prevM = GUI.matrix;
+            Vector2 pivot = new Vector2( barRect.x + barRect.width * 0.5f, barRect.y + barRect.height * 0.5f );
+            GUI.matrix = Matrix4x4.TRS( pivot, Quaternion.identity, new Vector3( s, s, 1f ) )
+                     * Matrix4x4.TRS( -pivot, Quaternion.identity, Vector3.one )
+                     * GUI.matrix;
+
             GUI.color = new Color( 1f, 1f, 1f, uiAlpha );
+
+            // BAR
             GUI.DrawTexture( barRect, bgTexture, ScaleMode.StretchToFill, true );
 
             // CARDINALS
-            GUI.color = new Color( 1f, 1f, 1f, uiAlpha );
             UI.CompassCardinals.Draw( texN, texE, texS, texW, barRect, displayedHeading );
 
-            // POIS
-            GUI.color = new Color( 1f, 1f, 1f, uiAlpha );
+            // POIS (apenas uma vez, sem TickCache)
             UI.CompassPOIs.Draw( barRect, displayedHeading, uiAlpha );
+
+            GUI.matrix = prevM;
         }
 
 
