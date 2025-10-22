@@ -55,9 +55,6 @@
 		<Reference Include="UnityEngine.IMGUIModule">
 			<HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
 		</Reference>
-		<Reference Include="UnityEngine.ImageConversionModule">
-			<HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-		</Reference>
 		<Reference Include="UnityEngine.UI">
 			<HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.UI.dll</HintPath>
 		</Reference>

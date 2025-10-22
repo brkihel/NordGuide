@@ -22,7 +22,7 @@ namespace NordGuide
 
             Log.LogInfo("[NordGuide] Initializing...");
 
-            Core.AssetsManager.Initialize();
+            //Core.AssetsManager.Initialize();
             Core.ConfigManager.Initialize(Config);
 
             SceneManager.sceneLoaded += OnSceneLoaded;

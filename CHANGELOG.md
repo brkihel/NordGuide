@@ -8,6 +8,5 @@
 - Dynamic size by distance; edge fade consistent with cardinals.
 - Smooth distance fade to disappearance (config: `POI Disappear Distance`).
 - Ping animation (pulsing) like the minimap.
-- Hide *local* player shout (others remain visible); cached classification with pruning.
 - Option to hide the small HUD minimap; world map (`M`) unaffected.
 - Refactor: `MinimapVisibility` extracted; `[HUD]` section consolidation; project structure cleanup.
